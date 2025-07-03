@@ -4,9 +4,12 @@ import os
 
 app = Flask(__name__)
 
-# Connect to Redis using service name as hostname (Docker Compose)
+# Read Redis connection details from environment variables
 redis_host = os.environ.get('REDIS_HOST', 'localhost')
-r = redis.Redis(host=redis_host, port=6379, db=0)
+redis_port = int(os.environ.get('REDIS_PORT', 6379))
+redis_db = int(os.environ.get('REDIS_DB', 0))
+
+r = redis.Redis(host=redis_host, port=redis_port, db=redis_db)
 
 @app.route('/')
 def home():
